@@ -27,6 +27,7 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	void BeginWaterIncrease();
 
 private:
 
@@ -40,10 +41,16 @@ private:
 	float drainAmount = 0.01f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
+	float waterIncreaseAmount = 0.01f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Health")
 	bool HealthDrains = false;
 
 	UFUNCTION()
 	void TakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* Instigator, AActor* DamageCauser);
 
+	FTimerHandle waterRefillHandle;
+
+	void IncreaseHealthInWater();
 		
 };

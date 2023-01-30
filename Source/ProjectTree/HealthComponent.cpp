@@ -38,6 +38,11 @@ void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	// ...
 }
 
+void UHealthComponent::BeginWaterIncrease()
+{
+	GetOwner()->GetWorldTimerManager().SetTimer(waterRefillHandle, this, &UHealthComponent::IncreaseHealthInWater, 0.1f, true);
+}
+
 void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* Instigator, AActor* DamageCauser)
 {
 	//if (Damage <= 0)
@@ -46,5 +51,13 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 	//}
 	health = FMath::Clamp(health + Damage, 0, maxHealth);
 	UE_LOG(LogTemp, Warning, TEXT("Damaged"));
+}
+
+void UHealthComponent::IncreaseHealthInWater()
+{
+	if (health < maxHealth && GetOwner()->GetWorldTimerManager().IsTimerActive(waterRefillHandle))
+	{
+		health += waterIncreaseAmount;
+	}
 }
 
