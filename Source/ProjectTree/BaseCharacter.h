@@ -15,6 +15,8 @@ public:
 	// Sets default values for this character's properties
 	ABaseCharacter();
 
+	class UHealthComponent* GetHealthComponent() const { return healthComp; }
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -28,6 +30,6 @@ public:
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "HealthComponent")
-	class UHealthComponent* healthComp;
+	UHealthComponent* healthComp;
 
 };

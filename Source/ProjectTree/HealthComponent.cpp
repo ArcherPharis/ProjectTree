@@ -29,6 +29,11 @@ void UHealthComponent::BeginPlay()
 void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	if (HealthDrains)
+	{
+		health -= drainAmount * DeltaTime;
+		onHealthChanged.Broadcast(health, maxHealth);
+	}
 
 	// ...
 }
