@@ -7,7 +7,7 @@
 #include "HealthComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnHealthChanged, float, newHealth, float, maxHealth);
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHealthEmpty);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECTTREE_API UHealthComponent : public UActorComponent
@@ -19,6 +19,7 @@ public:
 	UHealthComponent();
 
 	FOnHealthChanged onHealthChanged;
+	FOnHealthEmpty onHealthEmpty;
 
 protected:
 	// Called when the game starts
@@ -28,6 +29,7 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void BeginWaterIncrease();
+	void StopWaterIncrease();
 
 private:
 
@@ -41,7 +43,7 @@ private:
 	float drainAmount = 0.01f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
-	float waterIncreaseAmount = 0.01f;
+	float waterIncreaseAmount = 0.1f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
 	bool HealthDrains = false;

@@ -4,6 +4,7 @@
 #include "PlayerCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Weapon.h"
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -15,6 +16,12 @@ APlayerCharacter::APlayerCharacter()
 	camera->SetupAttachment(springArm);
 }
 
+void APlayerCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	SpawnWeapon();
+}
+
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -23,6 +30,9 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAxis("LookUp", this, &APlayerCharacter::LookUp);
 	PlayerInputComponent->BindAxis("LookRight", this, &APlayerCharacter::Turn);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &APlayerCharacter::Jump);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &APlayerCharacter::StopJumping);
+	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &APlayerCharacter::MeleeAttack);
+
 
 }
 
@@ -45,4 +55,21 @@ void APlayerCharacter::Turn(float amt)
 {
 	AddControllerYawInput(amt);
 
+}
+
+void APlayerCharacter::MeleeAttack()
+{
+	if (weapon)
+	{
+		weapon->Attack(GetMesh());
+		
+	}
+}
+
+void APlayerCharacter::SpawnWeapon()
+{
+	if (weaponClass == nullptr) return;
+	weapon = GetWorld()->SpawnActor<AWeapon>(weaponClass);
+	weapon->SetOwner(this);
+	weapon->AttachWeapon(GetMesh());
 }

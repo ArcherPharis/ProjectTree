@@ -17,6 +17,9 @@ class PROJECTTREE_API APlayerCharacter : public ABaseCharacter
 public:
 	APlayerCharacter();
 
+protected:
+	virtual void BeginPlay() override;
+
 
 private:
 
@@ -28,6 +31,10 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Player")
 	class UCameraComponent* camera;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	TSubclassOf<class AWeapon> weaponClass;
+	AWeapon* weapon;
+
 	//////////////////// INPUT ////////////////////
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
@@ -35,5 +42,7 @@ private:
 	void MoveRight(float amt);
 	void LookUp(float amt);
 	void Turn(float amt);
+	void MeleeAttack();
+	void SpawnWeapon();
 	
 };

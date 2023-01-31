@@ -2,6 +2,7 @@
 
 
 #include "HealthComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
 UHealthComponent::UHealthComponent()
@@ -29,9 +30,9 @@ void UHealthComponent::BeginPlay()
 void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if (HealthDrains)
+	if (HealthDrains && health > 0)
 	{
-		health -= drainAmount * DeltaTime;
+		UGameplayStatics::ApplyDamage(GetOwner(), -drainAmount * DeltaTime, GetOwner()->GetInstigatorController(), GetOwner(), UDamageType::StaticClass());
 		onHealthChanged.Broadcast(health, maxHealth);
 	}
 
@@ -43,6 +44,11 @@ void UHealthComponent::BeginWaterIncrease()
 	GetOwner()->GetWorldTimerManager().SetTimer(waterRefillHandle, this, &UHealthComponent::IncreaseHealthInWater, 0.1f, true);
 }
 
+void UHealthComponent::StopWaterIncrease()
+{
+	GetOwner()->GetWorldTimerManager().ClearTimer(waterRefillHandle);
+}
+
 void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* Instigator, AActor* DamageCauser)
 {
 	//if (Damage <= 0)
@@ -50,7 +56,13 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 	//	return;
 	//}
 	health = FMath::Clamp(health + Damage, 0, maxHealth);
-	UE_LOG(LogTemp, Warning, TEXT("Damaged"));
+	onHealthChanged.Broadcast(health, maxHealth);
+	
+	if (health == 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("PlayerDead"));
+		onHealthEmpty.Broadcast();
+	}
 }
 
 void UHealthComponent::IncreaseHealthInWater()

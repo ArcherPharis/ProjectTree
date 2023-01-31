@@ -2,6 +2,8 @@
 
 
 #include "WaterPlane.h"
+#include "BaseCharacter.h"
+#include "HealthComponent.h"
 
 // Sets default values
 AWaterPlane::AWaterPlane()
@@ -18,6 +20,7 @@ void AWaterPlane::BeginPlay()
 {
 	Super::BeginPlay();
 	waterPlane->OnComponentBeginOverlap.AddDynamic(this, &AWaterPlane::OnTouched);
+	waterPlane->OnComponentEndOverlap.AddDynamic(this, &AWaterPlane::OnLeave);
 	
 }
 
@@ -32,7 +35,23 @@ void AWaterPlane::OnTouched(UPrimitiveComponent* OverlappedComponent, AActor* Ot
 {
 	if (OtherActor->ActorHasTag(TEXT("Player")))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Player is here."));
+		UHealthComponent* healthComp = Cast<ABaseCharacter>(OtherActor)->GetHealthComponent();
+		if (healthComp)
+		{
+			healthComp->BeginWaterIncrease();
+		}
+	}
+}
+
+void AWaterPlane::OnLeave(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (OtherActor->ActorHasTag(TEXT("Player")))
+	{
+		UHealthComponent* healthComp = Cast<ABaseCharacter>(OtherActor)->GetHealthComponent();
+		if (healthComp)
+		{
+			healthComp->StopWaterIncrease();
+		}
 	}
 }
 
