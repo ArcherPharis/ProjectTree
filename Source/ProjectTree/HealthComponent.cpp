@@ -60,7 +60,9 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 	
 	if (health == 0)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerDead"));
+		UE_LOG(LogTemp, Warning, TEXT("Dead"));
+		//TODO, each health component needs to know of its BaseCharacter owner, so it can
+		//execute the correct death states.
 		onHealthEmpty.Broadcast();
 	}
 }

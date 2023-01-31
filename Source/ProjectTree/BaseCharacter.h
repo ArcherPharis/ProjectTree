@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "GenericTeamAgentInterface.h"
 #include "BaseCharacter.generated.h"
 
 UCLASS()
-class PROJECTTREE_API ABaseCharacter : public ACharacter
+class PROJECTTREE_API ABaseCharacter : public ACharacter, public IGenericTeamAgentInterface
 {
 	GENERATED_BODY()
 
@@ -28,8 +29,20 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+public:
+	/** Assigns Team Agent to given TeamID */
+	FORCEINLINE virtual void SetGenericTeamId(const FGenericTeamId& ID) { TeamID = ID; }
+
+	/** Retrieve team identifier in form of FGenericTeamId */
+	FORCEINLINE virtual FGenericTeamId GetGenericTeamId() const { return TeamID; }
 private:
+	UPROPERTY(EditAnywhere, Category = "AI")
+	FGenericTeamId TeamID;
+
 	UPROPERTY(EditDefaultsOnly, Category = "HealthComponent")
 	UHealthComponent* healthComp;
+
+	UPROPERTY()
+	class UAIPerceptionStimuliSourceComponent* PerceptionStimuliComp;
 
 };

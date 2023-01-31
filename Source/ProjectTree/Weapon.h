@@ -33,6 +33,9 @@ protected:
 	virtual bool CanAttack() const;
 
 private:
+
+	UPROPERTY(EditAnywhere, Category = "Weapon")
+	USceneComponent* rootComp;
 	UPROPERTY(EditAnywhere, Category = "Weapon")
 	UStaticMeshComponent* mesh;
 
@@ -46,11 +49,16 @@ private:
 	FName weaponSocketName;
 
 	UPROPERTY(EditAnywhere, Category = "Weapon")
-	float damage = 10.f;
+	float damage = 25.f;
 
 	UPROPERTY(EditAnywhere, Category = "Weapon")
 	float attackRate = 1.f;
 
 	FTimerHandle AttackTimer;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	float hitPushSpeed = 500.f;
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit);
 };

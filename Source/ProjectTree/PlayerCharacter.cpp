@@ -4,6 +4,7 @@
 #include "PlayerCharacter.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Weapon.h"
 
 APlayerCharacter::APlayerCharacter()
@@ -22,6 +23,11 @@ void APlayerCharacter::BeginPlay()
 	SpawnWeapon();
 }
 
+bool APlayerCharacter::CanDash() const
+{
+	return !GetWorldTimerManager().IsTimerActive(DashTimer);
+}
+
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -32,7 +38,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &APlayerCharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &APlayerCharacter::StopJumping);
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &APlayerCharacter::MeleeAttack);
-
+	PlayerInputComponent->BindAction("Dash", IE_Pressed, this, &APlayerCharacter::Dash);
 
 }
 
@@ -63,6 +69,25 @@ void APlayerCharacter::MeleeAttack()
 	{
 		weapon->Attack(GetMesh());
 		
+	}
+}
+
+void APlayerCharacter::Dash()
+{
+	if (CanDash())
+	{
+		float currentSpeed = GetVelocity().Length();
+		if (currentSpeed == 0 || !GetCharacterMovement()->IsFalling())
+		{
+			StillDash();
+			GetWorldTimerManager().SetTimer(DashTimer, 1 / dashRate, false);
+		}
+		else
+		{
+
+			VectorDash();
+			GetWorldTimerManager().SetTimer(DashTimer, 1 / dashRate, false);
+		}
 	}
 }
 

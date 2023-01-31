@@ -3,6 +3,10 @@
 
 #include "BaseCharacter.h"
 #include "HealthComponent.h"
+#include "AIController.h"
+#include "BrainComponent.h"
+#include "Perception/AIPerceptionStimuliSourceComponent.h"
+#include "Perception/AISense_Sight.h"
 
 // Sets default values
 ABaseCharacter::ABaseCharacter()
@@ -10,6 +14,7 @@ ABaseCharacter::ABaseCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	healthComp = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
+	PerceptionStimuliComp = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>("PerceptionStimuliComp");
 
 }
 

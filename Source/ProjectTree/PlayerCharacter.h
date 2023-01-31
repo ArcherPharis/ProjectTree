@@ -17,11 +17,24 @@ class PROJECTTREE_API APlayerCharacter : public ABaseCharacter
 public:
 	APlayerCharacter();
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "PlayerDash")
+	void VectorDash();
+	UFUNCTION(BlueprintImplementableEvent, Category = "PlayerDash")
+	void StillDash();
+
 protected:
 	virtual void BeginPlay() override;
 
 
 private:
+
+
+	bool CanDash() const;
+	UPROPERTY(EditAnywhere, Category = "PlayerDash")
+	float dashRate = 1.f;
+
+	FTimerHandle DashTimer;
+
 
 	//////////////////// CAMERA ////////////////////
 
@@ -43,6 +56,7 @@ private:
 	void LookUp(float amt);
 	void Turn(float amt);
 	void MeleeAttack();
+	void Dash();
 	void SpawnWeapon();
 	
 };
