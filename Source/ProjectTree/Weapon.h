@@ -23,11 +23,18 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	class UCapsuleComponent* GetHitBox() const { return hitBox; }
+
+
 	void AttachWeapon(USkeletalMeshComponent* ownerMesh);
 
 	UAnimMontage* GetNormalAttackMontage() const { return meleeMontage; }
 
 	void Attack(USkeletalMeshComponent* ownerMesh);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Weapon")
+	void LaunchTarget(ACharacter* characterToLaunch);
 
 protected:
 	virtual bool CanAttack() const;
@@ -40,7 +47,7 @@ private:
 	UStaticMeshComponent* mesh;
 
 	UPROPERTY(EditAnywhere, Category = "Weapon")
-	class UCapsuleComponent* hitBox;
+	UCapsuleComponent* hitBox;
 
 	UPROPERTY(EditAnywhere, Category = "Animation")
 	UAnimMontage* meleeMontage;

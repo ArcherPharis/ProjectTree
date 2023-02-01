@@ -24,6 +24,7 @@ public:
 	FORCEINLINE virtual FGenericTeamId GetGenericTeamId() const { return TeamID; }
 
 	void BeginEnemyLogic();
+	void StopEnemyLogic();
 	void SetKnownPlayer(APawn*& target);
 
 private:

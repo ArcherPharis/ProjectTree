@@ -2,6 +2,7 @@
 
 
 #include "HealthComponent.h"
+#include "BaseCharacter.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
@@ -19,6 +20,7 @@ UHealthComponent::UHealthComponent()
 void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
+	ownerChara = Cast<ABaseCharacter>(GetOwner());
 	health = maxHealth;
 	GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::TakeDamage);
 	// ...
@@ -61,10 +63,10 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 	if (health == 0)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Dead"));
-		//TODO, each health component needs to know of its BaseCharacter owner, so it can
-		//execute the correct death states.
+		ownerChara->HandleDeath();
 		onHealthEmpty.Broadcast();
 	}
+
 }
 
 void UHealthComponent::IncreaseHealthInWater()

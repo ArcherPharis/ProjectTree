@@ -5,6 +5,9 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "PlayerCharacterController.h"
+#include "Kismet/GameplayStatics.h"
+#include "Components/CapsuleComponent.h"
 #include "Weapon.h"
 
 APlayerCharacter::APlayerCharacter()
@@ -21,6 +24,17 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	SpawnWeapon();
+}
+
+void APlayerCharacter::HandleDeath()
+{
+	Super::HandleDeath();
+	APlayerCharacterController* cont = Cast<APlayerCharacterController>(GetOwner());
+	cont->SetInputMode(FInputModeUIOnly());
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	
+
 }
 
 bool APlayerCharacter::CanDash() const
@@ -80,14 +94,14 @@ void APlayerCharacter::Dash()
 		if (currentSpeed == 0 || !GetCharacterMovement()->IsFalling())
 		{
 			StillDash();
-			GetWorldTimerManager().SetTimer(DashTimer, 1 / dashRate, false);
+			GetWorldTimerManager().SetTimer(DashTimer, 1 / dashRate, false);	
 		}
 		else
 		{
-
 			VectorDash();
 			GetWorldTimerManager().SetTimer(DashTimer, 1 / dashRate, false);
 		}
+		GetMesh()->GetAnimInstance()->Montage_Play(DashMontage);
 	}
 }
 

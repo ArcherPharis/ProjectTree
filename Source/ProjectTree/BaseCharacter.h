@@ -18,9 +18,13 @@ public:
 
 	class UHealthComponent* GetHealthComponent() const { return healthComp; }
 
+	virtual void HandleDeath();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	
 
 public:	
 	// Called every frame
@@ -35,9 +39,19 @@ public:
 
 	/** Retrieve team identifier in form of FGenericTeamId */
 	FORCEINLINE virtual FGenericTeamId GetGenericTeamId() const { return TeamID; }
+
+	UAnimMontage* GetFlinchMontage() const { return FlinchMontage; }
+
+	bool IsDead();
 private:
 	UPROPERTY(EditAnywhere, Category = "AI")
 	FGenericTeamId TeamID;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Animation")
+	UAnimMontage* DeathMontage;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Animation")
+	UAnimMontage* FlinchMontage;
 
 	UPROPERTY(EditDefaultsOnly, Category = "HealthComponent")
 	UHealthComponent* healthComp;

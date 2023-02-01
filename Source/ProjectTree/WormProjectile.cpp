@@ -4,6 +4,8 @@
 #include "WormProjectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
+#include "PlayerCharacter.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AWormProjectile::AWormProjectile()
@@ -25,6 +27,7 @@ AWormProjectile::AWormProjectile()
 void AWormProjectile::BeginPlay()
 {
 	Super::BeginPlay();
+	hitBox->OnComponentBeginOverlap.AddDynamic(this, &AWormProjectile::Explode);
 	
 }
 
@@ -33,5 +36,19 @@ void AWormProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AWormProjectile::Explode(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
+{
+	UGameplayStatics::ApplyDamage(OtherActor, -damage, GetOwner()->GetInstigatorController(), GetOwner(), UDamageType::StaticClass());
+	if (OtherActor->ActorHasTag("Player"))
+	{
+		APlayerCharacter* character = Cast<APlayerCharacter>(OtherActor);
+		if (!character->IsDead())
+		{
+			character->TakeHit();
+		}
+	}
+	Destroy();
 }
 

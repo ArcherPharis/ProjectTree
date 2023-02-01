@@ -21,19 +21,29 @@ public:
 	void VectorDash();
 	UFUNCTION(BlueprintImplementableEvent, Category = "PlayerDash")
 	void StillDash();
+	UFUNCTION(BlueprintImplementableEvent, Category = "PlayerDash")
+	void TakeHit();
 
 protected:
 	virtual void BeginPlay() override;
 
+public:
+	UFUNCTION(BlueprintPure, Category = "Player")
+	class AWeapon* GetWeapon() const { return weapon; }
+
 
 private:
 
+	virtual void HandleDeath() override;
 
 	bool CanDash() const;
 	UPROPERTY(EditAnywhere, Category = "PlayerDash")
 	float dashRate = 1.f;
 
 	FTimerHandle DashTimer;
+
+	UPROPERTY(EditDefaultsOnly, Category = "PlayerDash")
+	UAnimMontage* DashMontage;
 
 
 	//////////////////// CAMERA ////////////////////
@@ -45,7 +55,7 @@ private:
 	class UCameraComponent* camera;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	TSubclassOf<class AWeapon> weaponClass;
+	TSubclassOf<AWeapon> weaponClass;
 	AWeapon* weapon;
 
 	//////////////////// INPUT ////////////////////

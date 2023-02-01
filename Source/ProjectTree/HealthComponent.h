@@ -30,6 +30,9 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	void BeginWaterIncrease();
 	void StopWaterIncrease();
+	float GetMaxHealth() const { return maxHealth; }
+	float GetHealth() const { return health; }
+
 
 private:
 
@@ -54,5 +57,7 @@ private:
 	FTimerHandle waterRefillHandle;
 
 	void IncreaseHealthInWater();
+
+	class ABaseCharacter* ownerChara;
 		
 };

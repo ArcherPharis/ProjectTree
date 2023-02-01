@@ -36,4 +36,10 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "WormProjectile")
 	class USphereComponent* hitBox;
 
+	UPROPERTY(EditDefaultsOnly, Category = "WormProjectile")
+	float damage = 25.f;
+
+	UFUNCTION()
+	void Explode(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit);
+
 };

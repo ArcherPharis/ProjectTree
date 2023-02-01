@@ -25,6 +25,14 @@ void ABaseCharacter::BeginPlay()
 	
 }
 
+void ABaseCharacter::HandleDeath()
+{
+
+	if(DeathMontage)
+	GetMesh()->GetAnimInstance()->Montage_Play(DeathMontage);
+
+}
+
 // Called every frame
 void ABaseCharacter::Tick(float DeltaTime)
 {
@@ -37,5 +45,10 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+bool ABaseCharacter::IsDead()
+{
+	return healthComp->GetHealth() == 0;
 }
 

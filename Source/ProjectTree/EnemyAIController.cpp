@@ -5,6 +5,7 @@
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Sight.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "BrainComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 AEnemyAIController::AEnemyAIController()
@@ -23,7 +24,13 @@ void AEnemyAIController::BeginEnemyLogic()
 	if (BehaviorTree)
 	{
 		RunBehaviorTree(BehaviorTree);
+		
 	}
+}
+
+void AEnemyAIController::StopEnemyLogic()
+{
+	BrainComponent->StopLogic("cuz it ded");
 }
 
 void AEnemyAIController::SetKnownPlayer(APawn*& target)

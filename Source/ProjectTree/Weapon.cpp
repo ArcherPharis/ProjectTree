@@ -46,7 +46,7 @@ void AWeapon::Attack(USkeletalMeshComponent* ownerMesh)
 {
 	if (CanAttack())
 	{
-		//ownerMesh->GetAnimInstance()->Montage_Play(meleeMontage);
+		ownerMesh->GetAnimInstance()->Montage_Play(meleeMontage);
 		GetWorldTimerManager().SetTimer(AttackTimer, 1 / attackRate, false);
 		UE_LOG(LogTemp, Warning, TEXT("CanAttack"));
 	}
@@ -63,7 +63,9 @@ void AWeapon::OnHit(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor
 	ACharacter* hitCharacter = Cast<ACharacter>(OtherActor);
 	if (hitCharacter)
 	{
-		hitCharacter->GetCharacterMovement()->AddImpulse(GetOwner()->GetActorForwardVector() * hitPushSpeed, true);
+		LaunchTarget(hitCharacter);
+		//hitCharacter->LaunchCharacter(GetOwner()->GetActorForwardVector() * hitPushSpeed, true, true);
+		//hitCharacter->GetCharacterMovement()->AddImpulse(GetOwner()->GetActorForwardVector() * hitPushSpeed, true);
 		UGameplayStatics::ApplyDamage(hitCharacter, -damage, GetOwner()->GetInstigatorController(), GetOwner(), UDamageType::StaticClass());
 	}
 }
