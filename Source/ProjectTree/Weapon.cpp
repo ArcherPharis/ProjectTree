@@ -17,7 +17,7 @@ AWeapon::AWeapon()
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WeaponMesh"));
 	mesh->SetupAttachment(RootComponent);
 	hitBox = CreateDefaultSubobject<UCapsuleComponent>(TEXT("HitBox"));
-	hitBox->SetupAttachment(mesh);
+	hitBox->SetupAttachment(RootComponent);
 
 }
 

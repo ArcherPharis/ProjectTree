@@ -33,6 +33,7 @@ void APlayerCharacter::SwitchCharacter()
 	cont->UnPossess();
 	cont->Possess(teen);
 	SetActorHiddenInGame(true);
+	Destroy();
 
 }
 
