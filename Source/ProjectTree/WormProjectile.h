@@ -23,6 +23,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Projectile")
+	void SpawnEffects(APlayerCharacter* charaHit);
+
 private:
 	UPROPERTY(EditDefaultsOnly, Category = "WormProjectile")
 	class UProjectileMovementComponent* projectileComp;

@@ -19,13 +19,37 @@ public:
 
 	virtual void BeginPlay() override;
 
+	void IncreaseEnemiesKilled();
+
+	UFUNCTION()
+	void ResumeGame();
+
+	UFUNCTION()
+	void RestartGame();
+
+	UFUNCTION()
+	void QuitGame();
+
+	void PauseGame();
+
+	void GameOver();
+
 private:
 	class APlayerCharacter* playerCharacter;
 	UPROPERTY(EditDefaultsOnly, Category = "Player")
 	TSubclassOf<class UInGameUI> inGameUIClass;
 	UInGameUI* inGameUI;
 
+	void ShowEndScreen();
+
 	UFUNCTION()
 	void UpdateUIHealth(float newH, float maxH);
+
+	UPROPERTY(EditAnywhere, Category = "KillCount")
+	int enemiesKilled = 0;
+	UPROPERTY(EditAnywhere, Category = "KillCount")
+	int enemiesToTransform = 0;
+
+	bool hasTransformed = false;
 	
 };

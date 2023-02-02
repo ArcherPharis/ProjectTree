@@ -31,6 +31,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Player")
 	class AWeapon* GetWeapon() const { return weapon; }
 
+	UFUNCTION(BlueprintCallable, Category = "Player")
+	void SwitchCharacter();
+
 
 private:
 
@@ -44,6 +47,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "PlayerDash")
 	UAnimMontage* DashMontage;
+
 
 
 	//////////////////// CAMERA ////////////////////
@@ -72,5 +76,8 @@ private:
 	void MeleeAttack();
 	void Dash();
 	void SpawnWeapon();
+	void Pause();
+
+
 	
 };

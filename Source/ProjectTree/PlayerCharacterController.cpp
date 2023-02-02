@@ -3,6 +3,7 @@
 
 #include "PlayerCharacterController.h"
 #include "PlayerCharacter.h"
+#include "Kismet/GameplayStatics.h"
 #include "InGameUI.h"
 #include "HealthComponent.h"
 
@@ -13,14 +14,79 @@ void APlayerCharacterController::OnPossess(APawn* newPawn)
 	if (playerCharacter)
 	{
 		playerCharacter->GetHealthComponent()->onHealthChanged.AddDynamic(this, &APlayerCharacterController::UpdateUIHealth);
+		if (inGameUIClass && !inGameUI)
+		{
+			inGameUI = CreateWidget<UInGameUI>(this, inGameUIClass);
+			inGameUI->AddToViewport();
+			inGameUI->OnGameResumed.AddDynamic(this, &APlayerCharacterController::ResumeGame);
+			inGameUI->OnGameRestarted.AddDynamic(this, &APlayerCharacterController::RestartGame);
+			inGameUI->OnGameQuit.AddDynamic(this, &APlayerCharacterController::QuitGame);
+		}
+
+
 	}
 }
 
 void APlayerCharacterController::BeginPlay()
 {
 	Super::BeginPlay();
-	inGameUI = CreateWidget<UInGameUI>(this, inGameUIClass);
-	inGameUI->AddToViewport();
+
+}
+
+void APlayerCharacterController::IncreaseEnemiesKilled()
+{
+	enemiesKilled++;
+	if (enemiesKilled <= enemiesToTransform)
+	{
+		inGameUI->UpdateGrowth(enemiesKilled, enemiesToTransform);
+	}
+	if (enemiesKilled >= enemiesToTransform && !hasTransformed)
+	{
+		APlayerCharacter* charact = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(this, 0));
+		charact->SwitchCharacter();
+	}
+}
+
+void APlayerCharacterController::ResumeGame()
+{
+	UGameplayStatics::SetGamePaused(this, false);
+	SetInputMode(FInputModeGameOnly());
+	SetShowMouseCursor(false);
+}
+
+void APlayerCharacterController::RestartGame()
+{
+	RestartLevel();
+	SetInputMode(FInputModeGameOnly());
+}
+
+void APlayerCharacterController::QuitGame()
+{
+	UGameplayStatics::GetPlayerController(this, 0)->ConsoleCommand("quit");
+}
+
+void APlayerCharacterController::PauseGame()
+{
+	inGameUI->SwitchToPauseMenu();
+	SetInputMode(FInputModeUIOnly());
+	SetShowMouseCursor(true);
+	UGameplayStatics::SetGamePaused(this, true);
+}
+
+void APlayerCharacterController::GameOver()
+{
+	SetInputMode(FInputModeUIOnly());
+	FTimerHandle GOHandle;
+	GetWorldTimerManager().SetTimer(GOHandle, this, &APlayerCharacterController::ShowEndScreen, 2.0f, false);
+
+}
+
+void APlayerCharacterController::ShowEndScreen()
+{
+
+	inGameUI->SwitchToGameOverMenu();
+	SetShowMouseCursor(true);
+	UGameplayStatics::SetGamePaused(this, true);
 }
 
 void APlayerCharacterController::UpdateUIHealth(float newH, float maxH)

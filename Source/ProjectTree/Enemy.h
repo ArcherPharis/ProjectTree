@@ -83,4 +83,5 @@ private:
 
 	bool bWasLightAttack;
 	bool bWasHeavyAttack;
+	bool logicStarted = false;
 };

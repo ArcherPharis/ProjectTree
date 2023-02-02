@@ -4,6 +4,7 @@
 #include "BaseCharacter.h"
 #include "HealthComponent.h"
 #include "AIController.h"
+#include "Components/CapsuleComponent.h"
 #include "BrainComponent.h"
 #include "Perception/AIPerceptionStimuliSourceComponent.h"
 #include "Perception/AISense_Sight.h"
@@ -27,9 +28,10 @@ void ABaseCharacter::BeginPlay()
 
 void ABaseCharacter::HandleDeath()
 {
-
+	
 	if(DeathMontage)
 	GetMesh()->GetAnimInstance()->Montage_Play(DeathMontage);
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECollisionResponse::ECR_Ignore);
 
 }
 

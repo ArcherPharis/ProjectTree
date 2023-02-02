@@ -26,13 +26,24 @@ void APlayerCharacter::BeginPlay()
 	SpawnWeapon();
 }
 
+void APlayerCharacter::SwitchCharacter()
+{
+	teen = GetWorld()->SpawnActor<APlayerCharacter>(teenClass, GetActorLocation(), GetActorRotation());
+	APlayerController* cont = UGameplayStatics::GetPlayerController(this, 0);
+	cont->UnPossess();
+	cont->Possess(teen);
+	SetActorHiddenInGame(true);
+
+}
+
 void APlayerCharacter::HandleDeath()
 {
 	Super::HandleDeath();
 	APlayerCharacterController* cont = Cast<APlayerCharacterController>(GetOwner());
 	cont->SetInputMode(FInputModeUIOnly());
 	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	cont->GameOver();
+
 	
 
 }
@@ -53,6 +64,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &APlayerCharacter::StopJumping);
 	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &APlayerCharacter::MeleeAttack);
 	PlayerInputComponent->BindAction("Dash", IE_Pressed, this, &APlayerCharacter::Dash);
+	PlayerInputComponent->BindAction("Pause", IE_Pressed, this, &APlayerCharacter::Pause);
+
 
 }
 
@@ -111,4 +124,10 @@ void APlayerCharacter::SpawnWeapon()
 	weapon = GetWorld()->SpawnActor<AWeapon>(weaponClass);
 	weapon->SetOwner(this);
 	weapon->AttachWeapon(GetMesh());
+}
+
+void APlayerCharacter::Pause()
+{
+	APlayerCharacterController* cont = Cast<APlayerCharacterController>(GetOwner());
+	cont->PauseGame();
 }

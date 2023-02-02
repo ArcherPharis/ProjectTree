@@ -40,15 +40,18 @@ void AWormProjectile::Tick(float DeltaTime)
 
 void AWormProjectile::Explode(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
 {
+	APlayerCharacter* character = Cast<APlayerCharacter>(OtherActor);
 	UGameplayStatics::ApplyDamage(OtherActor, -damage, GetOwner()->GetInstigatorController(), GetOwner(), UDamageType::StaticClass());
 	if (OtherActor->ActorHasTag("Player"))
 	{
-		APlayerCharacter* character = Cast<APlayerCharacter>(OtherActor);
+		
 		if (!character->IsDead())
 		{
 			character->TakeHit();
+			
 		}
 	}
+	SpawnEffects(character);
 	Destroy();
 }
 

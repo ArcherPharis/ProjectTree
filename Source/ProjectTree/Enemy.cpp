@@ -4,6 +4,7 @@
 #include "Enemy.h"
 #include "EnemyAIController.h"
 #include "Components/CapsuleComponent.h"
+#include "PlayerCharacterController.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/BoxComponent.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -53,7 +54,12 @@ void AEnemy::Attack()
 void AEnemy::HandleDeath()
 {
 	Super::HandleDeath();
-	aiController->StopEnemyLogic();
+	APlayerCharacterController* cont = Cast<APlayerCharacterController>(UGameplayStatics::GetPlayerController(this, 0));
+	cont->IncreaseEnemiesKilled();
+	if (logicStarted)
+	{
+		aiController->StopEnemyLogic();
+	}
 	FTimerHandle DeathHandle;
 	GetWorldTimerManager().SetTimer(DeathHandle, this, &AEnemy::Die, 2.f, true);
 }
@@ -72,6 +78,7 @@ void AEnemy::StartBehaviorTree()
 	if (aiController)
 	{
 		aiController->BeginEnemyLogic();
+		logicStarted = true;
 		GetAIController()->SetKnownPlayer(target);
 		
 	}
@@ -92,6 +99,7 @@ void AEnemy::Die()
 
 void AEnemy::ReadyToAttack()
 {
+	if(!IsDead())
 	StartBehaviorTree();
 	
 }
