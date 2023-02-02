@@ -67,6 +67,12 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 		onHealthEmpty.Broadcast();
 	}
 
+	if (health > 0 && !HealthDrains)
+	{
+		if(ownerChara->GetFlinchMontage())
+		ownerChara->GetMesh()->GetAnimInstance()->Montage_Play(ownerChara->GetFlinchMontage());
+	}
+
 }
 
 void UHealthComponent::IncreaseHealthInWater()

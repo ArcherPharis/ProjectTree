@@ -6,9 +6,10 @@
 void AMushroom::BeginPlay()
 {
 	Super::BeginPlay();
-	StartBehaviorTree();
+	
 }
 
 void AMushroom::Attack()
 {
+	Super::Attack();
 }

@@ -38,7 +38,7 @@ void AWormSpawner::OnPlayerTrigger(UPrimitiveComponent* OverlappedComponent, AAc
 	if (OtherActor->ActorHasTag(TEXT("Player")) && !isSpawned)
 	{
 		isSpawned = true;
-		worm = GetWorld()->SpawnActor<AWorm>(wormClass, spawnLocation->GetComponentLocation(), GetActorRotation());
+		enemy = GetWorld()->SpawnActor<AEnemy>(enemyClass, spawnLocation->GetComponentLocation(), GetActorRotation());
 		
 	}
 }

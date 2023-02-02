@@ -15,25 +15,34 @@ AWorm::AWorm()
 void AWorm::BeginPlay()
 {
 	Super::BeginPlay();
-	GetWorldTimerManager().SetTimer(logicDelayHandle, this, &AWorm::ReadyToAttack, AILogicStartupTime, false);
+	
+	
+}
+
+void AWorm::SpawnProjectile()
+{
+	FVector spawnLoc = projectileSpawnLocation->GetComponentLocation();
+	FVector targetLoc = target->GetActorLocation();
+	projectileSpawnLocation->SetWorldRotation(UKismetMathLibrary::FindLookAtRotation(spawnLoc, targetLoc));
+	AWormProjectile* wormProjectile = GetWorld()->SpawnActor<AWormProjectile>(wormProjectileClass, projectileSpawnLocation->GetComponentLocation(), projectileSpawnLocation->GetComponentRotation());
+	wormProjectile->SetOwner(this);
 }
 
 void AWorm::Attack()
 {
 	if (target)
 	{
-		
-		FVector spawnLoc = projectileSpawnLocation->GetComponentLocation();
-		FVector targetLoc = target->GetActorLocation();
-		projectileSpawnLocation->SetWorldRotation(UKismetMathLibrary::FindLookAtRotation(spawnLoc, targetLoc));
-		AWormProjectile* wormProjectile = GetWorld()->SpawnActor<AWormProjectile>(wormProjectileClass, projectileSpawnLocation->GetComponentLocation(), projectileSpawnLocation->GetComponentRotation());
-		wormProjectile->SetOwner(this);
+		GetMesh()->GetAnimInstance()->Montage_Play(GetMontageAttackTwo());
 	}
 	
 }
 
-void AWorm::ReadyToAttack()
+void AWorm::SpecialAttack()
 {
-	StartBehaviorTree();
-	GetAIController()->SetKnownPlayer(target);
+	if (target)
+	{
+		GetMesh()->GetAnimInstance()->Montage_Play(GetMontageAttackOne());
+		SetLightAttack(true);
+	}
 }
+

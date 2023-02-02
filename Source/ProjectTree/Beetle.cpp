@@ -6,5 +6,5 @@
 void ABeetle::BeginPlay()
 {
 	Super::BeginPlay();
-	StartBehaviorTree();
+	
 }

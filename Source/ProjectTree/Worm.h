@@ -19,8 +19,12 @@ public:
 
 	virtual void BeginPlay() override;
 
+	UFUNCTION(BlueprintCallable, Category = "Worm")
+	void SpawnProjectile();
+
 private:
 	virtual void Attack() override;
+	virtual void SpecialAttack() override;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Worm")
 	USceneComponent* projectileSpawnLocation;
@@ -30,13 +34,6 @@ private:
 
 	
 
-	FTimerHandle logicDelayHandle;
 	
-	UPROPERTY(EditDefaultsOnly, Category = "AI")
-	float AILogicStartupTime = 2.0f;
-
-	void ReadyToAttack();
-
-	APawn* target;
 	
 };

@@ -58,6 +58,10 @@ private:
 	TSubclassOf<AWeapon> weaponClass;
 	AWeapon* weapon;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	TSubclassOf<APlayerCharacter> teenClass;
+	APlayerCharacter* teen;
+
 	//////////////////// INPUT ////////////////////
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 

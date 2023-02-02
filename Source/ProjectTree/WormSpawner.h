@@ -34,9 +34,9 @@ private:
 	class USceneComponent* spawnLocation;
 
 	UPROPERTY(EditDefaultsOnly, Category = "WormSpawner")
-	TSubclassOf<class AWorm> wormClass;
+	TSubclassOf<class AEnemy> enemyClass;
 
-	AWorm* worm;
+	AEnemy* enemy;
 
 	UPROPERTY(EditDefaultsOnly, Category = "WormSpawner")
 	bool isSpawned = false;
