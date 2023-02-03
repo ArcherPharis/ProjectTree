@@ -52,6 +52,7 @@ void APlayerCharacterController::IncreaseEnemiesKilled()
 void APlayerCharacterController::SwitchToEndgameScreen()
 {
 	inGameUI->SwitchToCongratsMenu();
+	inGameUI->PlayCreditsAnimation();
 }
 
 void APlayerCharacterController::ResumeGame()

@@ -22,6 +22,9 @@ public:
 	UFUNCTION()
 	void UpdateHealth(float health, float maxHealth);
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "UI")
+	void PlayCreditsAnimation();
+
 	UFUNCTION()
 	void UpdateGrowth(float currentLevel, float maxLevel);
 
