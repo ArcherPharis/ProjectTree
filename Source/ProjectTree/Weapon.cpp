@@ -77,6 +77,7 @@ void AWeapon::OnHit(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor
 		//hitCharacter->LaunchCharacter(GetOwner()->GetActorForwardVector() * hitPushSpeed, true, true);
 		//hitCharacter->GetCharacterMovement()->AddImpulse(GetOwner()->GetActorForwardVector() * hitPushSpeed, true);
 		UGameplayStatics::ApplyDamage(hitCharacter, -damage, GetOwner()->GetInstigatorController(), GetOwner(), UDamageType::StaticClass());
+		HitFXWeapon(hitCharacter);
 	}
 }
 

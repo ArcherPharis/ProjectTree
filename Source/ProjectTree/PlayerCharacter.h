@@ -49,6 +49,8 @@ private:
 	UPROPERTY(EditAnywhere, Category = "PlayerDash")
 	float dashRate = 1.f;
 
+
+
 	FTimerHandle DashTimer;
 
 	UPROPERTY(EditDefaultsOnly, Category = "PlayerDash")

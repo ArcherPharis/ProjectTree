@@ -36,10 +36,16 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Weapon")
 	void LaunchTarget(ACharacter* characterToLaunch);
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Weapon")
+	void HitFXWeapon(AActor* actorHit);
+
 protected:
 	virtual bool CanAttack() const;
 
 private:
+
+
+
 
 	class APlayerCharacter* OwnerPlayerChara;
 
