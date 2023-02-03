@@ -63,7 +63,10 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 	
 	if (health == 0)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Dead"));
+		if (ownerChara->GetDeathSound())
+		{
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), ownerChara->GetDeathSound(), ownerChara->GetActorLocation());
+		}
 		ownerChara->HandleDeath();
 		onHealthEmpty.Broadcast();
 	}

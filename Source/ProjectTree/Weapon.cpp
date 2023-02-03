@@ -64,6 +64,12 @@ bool AWeapon::CanAttack() const
 void AWeapon::OnHit(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
 {
 	UE_LOG(LogTemp, Warning, TEXT("We hit: %s"), *OtherActor->GetName());
+
+	if (HitSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(this, HitSound, GetActorLocation());
+	}
+
 	ACharacter* hitCharacter = Cast<ACharacter>(OtherActor);
 	if (hitCharacter)
 	{

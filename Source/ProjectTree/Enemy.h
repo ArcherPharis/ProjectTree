@@ -51,6 +51,13 @@ protected:
 
 
 private:
+
+	UPROPERTY(EditAnywhere, Category = "Sounds")
+	USoundBase* SpawnSound;
+
+	UPROPERTY(EditAnywhere, Category = "Sounds")
+	USoundBase* HitPlayerSound;
+
 	UPROPERTY(EditAnywhere, Category = "Enemy")
 	float attackDamage = 10.f;
 

@@ -54,6 +54,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Player")
 	USoundBase* TransformationSound;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Player")
+	USoundBase* JumpSound;
+
 
 
 	//////////////////// CAMERA ////////////////////
@@ -83,6 +86,7 @@ private:
 	void Dash();
 	void SpawnWeapon();
 	void Pause();
+	virtual void Jump() override;
 
 
 	

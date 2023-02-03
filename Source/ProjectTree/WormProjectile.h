@@ -31,6 +31,9 @@ private:
 	class UProjectileMovementComponent* projectileComp;
 
 	UPROPERTY(EditDefaultsOnly, Category = "WormProjectile")
+	USoundBase* explosionSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "WormProjectile")
 	USceneComponent* rootComp;
 
 	UPROPERTY(EditDefaultsOnly, Category = "WormProjectile")

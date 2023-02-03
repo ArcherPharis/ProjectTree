@@ -51,6 +51,7 @@ void AWormProjectile::Explode(UPrimitiveComponent* OverlappedComponent, AActor* 
 			
 		}
 	}
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), explosionSound, GetActorLocation());
 	SpawnEffects(character);
 	Destroy();
 }

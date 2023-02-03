@@ -24,6 +24,10 @@ void AEnemy::SetLightAttack(bool wasIt)
 void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
+	if (SpawnSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), SpawnSound, GetActorLocation());
+	}
 	aiController = Cast<AEnemyAIController>(GetOwner());
 	meleeHitBox->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::OnHit);
 	GetWorldTimerManager().SetTimer(logicDelayHandle, this, &AEnemy::ReadyToAttack, AILogicStartupTime, false);
@@ -33,6 +37,10 @@ void AEnemy::BeginPlay()
 void AEnemy::Attack()
 {
 	int randomNum = FMath::RandRange(0, 100);
+	if (GetAttackSound())
+	{
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), GetAttackSound(), GetActorLocation());
+	}
 
 	if (randomNum <= 50)
 	{
@@ -67,6 +75,7 @@ void AEnemy::HandleDeath()
 
 void AEnemy::SpecialAttack()
 {
+	
 }
 
 void AEnemy::SetAttackDamage(float amount)
@@ -125,6 +134,11 @@ void AEnemy::OnHit(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 		if (bWasHeavyAttack)
 		{
 			LaunchTarget(heavyAttackForce, characterToLaunch);
+		}
+
+		if (HitPlayerSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(GetWorld(), HitPlayerSound, GetActorLocation());
 		}
 
 		if (!character->IsDead())

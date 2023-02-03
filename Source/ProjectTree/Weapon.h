@@ -44,6 +44,9 @@ private:
 	class APlayerCharacter* OwnerPlayerChara;
 
 	UPROPERTY(EditAnywhere, Category = "Weapon")
+	USoundBase* HitSound;
+
+	UPROPERTY(EditAnywhere, Category = "Weapon")
 	USceneComponent* rootComp;
 	UPROPERTY(EditAnywhere, Category = "Weapon")
 	UStaticMeshComponent* mesh;

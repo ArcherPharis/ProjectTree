@@ -4,6 +4,7 @@
 #include "Worm.h"
 #include "EnemyAIController.h"
 #include "WormProjectile.h"
+#include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 
 AWorm::AWorm()
@@ -33,6 +34,7 @@ void AWorm::Attack()
 	if (target)
 	{
 		GetMesh()->GetAnimInstance()->Montage_Play(GetMontageAttackTwo());
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), wormSpit, GetActorLocation());
 	}
 	
 }
@@ -43,6 +45,7 @@ void AWorm::SpecialAttack()
 	{
 		GetMesh()->GetAnimInstance()->Montage_Play(GetMontageAttackOne());
 		SetLightAttack(true);
+
 	}
 }
 

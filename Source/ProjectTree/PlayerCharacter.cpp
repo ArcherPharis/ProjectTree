@@ -44,7 +44,7 @@ void APlayerCharacter::HandleDeath()
 	Super::HandleDeath();
 	APlayerCharacterController* cont = Cast<APlayerCharacterController>(GetOwner());
 	cont->SetInputMode(FInputModeUIOnly());
-	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Pawn, ECollisionResponse::ECR_Ignore);
 	cont->GameOver();
 
 	
@@ -133,4 +133,10 @@ void APlayerCharacter::Pause()
 {
 	APlayerCharacterController* cont = Cast<APlayerCharacterController>(GetOwner());
 	cont->PauseGame();
+}
+
+void APlayerCharacter::Jump()
+{
+	Super::Jump();
+	UGameplayStatics::PlaySoundAtLocation(this, JumpSound, GetActorLocation());
 }

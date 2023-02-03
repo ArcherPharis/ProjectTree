@@ -32,6 +32,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Worm")
 	TSubclassOf<class AWormProjectile> wormProjectileClass;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Worm")
+	USoundBase* wormSpit;
 	
 
 	

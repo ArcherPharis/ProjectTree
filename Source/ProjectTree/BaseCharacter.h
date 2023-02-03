@@ -45,6 +45,9 @@ public:
 	virtual void OnTakeDamage();
 
 	bool IsDead();
+
+	USoundBase* GetDeathSound() const { return DeathSound; }
+	USoundBase* GetAttackSound() const { return AttackSound; }
 private:
 	UPROPERTY(EditAnywhere, Category = "AI")
 	FGenericTeamId TeamID;
@@ -57,6 +60,12 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "HealthComponent")
 	UHealthComponent* healthComp;
+
+	UPROPERTY(EditAnywhere, Category = "Sounds")
+	USoundBase* DeathSound;
+
+	UPROPERTY(EditAnywhere, Category = "Sounds")
+	USoundBase* AttackSound;
 
 	UPROPERTY()
 	class UAIPerceptionStimuliSourceComponent* PerceptionStimuliComp;
