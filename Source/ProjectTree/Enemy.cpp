@@ -7,6 +7,7 @@
 #include "PlayerCharacterController.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/BoxComponent.h"
+#include "PlayerCharacter.h"
 #include "Kismet/KismetMathLibrary.h"
 
 AEnemy::AEnemy()
@@ -84,11 +85,18 @@ void AEnemy::StartBehaviorTree()
 	}
 }
 
+void AEnemy::OnTakeDamage()
+{
+	meleeHitBox->SetCollisionResponseToChannel(ECC_Pawn, ECollisionResponse::ECR_Ignore);
+}
+
 void AEnemy::OnTouched(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& Hit)
 {
 	if (OtherActor->ActorHasTag(TEXT("Player")))
 	{
+		
 		UGameplayStatics::ApplyDamage(OtherActor, -attackDamage, GetOwner()->GetInstigatorController(), this, UDamageType::StaticClass());
+
 	}
 }
 
@@ -109,7 +117,7 @@ void AEnemy::OnHit(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	if (OtherActor->ActorHasTag("Player") && OtherActor != this)
 	{
 		ACharacter* characterToLaunch = Cast<ACharacter>(OtherActor);
-
+		APlayerCharacter* character = Cast<APlayerCharacter>(OtherActor);
 		if (bWasLightAttack)
 		{
 			LaunchTarget(lightAttackForce, characterToLaunch);
@@ -117,6 +125,12 @@ void AEnemy::OnHit(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 		if (bWasHeavyAttack)
 		{
 			LaunchTarget(heavyAttackForce, characterToLaunch);
+		}
+
+		if (!character->IsDead())
+		{
+			character->TakeHit();
+
 		}
 
 		UGameplayStatics::ApplyDamage(OtherActor, -attackDamage, GetController(), this, UDamageType::StaticClass());

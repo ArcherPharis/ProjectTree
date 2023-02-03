@@ -42,6 +42,8 @@ public:
 
 	UAnimMontage* GetFlinchMontage() const { return FlinchMontage; }
 
+	virtual void OnTakeDamage();
+
 	bool IsDead();
 private:
 	UPROPERTY(EditAnywhere, Category = "AI")

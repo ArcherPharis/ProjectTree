@@ -8,7 +8,7 @@
 
 AWorm::AWorm()
 {
-	projectileSpawnLocation = CreateEditorOnlyDefaultSubobject<USceneComponent>(TEXT("ProjectileSpawnLocation"));
+	projectileSpawnLocation = CreateDefaultSubobject<USceneComponent>(TEXT("ProjectileSpawnLocation"));
 	projectileSpawnLocation->SetupAttachment(RootComponent);
 }
 

@@ -27,6 +27,8 @@ public:
 
 	virtual void SpecialAttack();
 
+
+
 	UFUNCTION(BlueprintCallable, Category = "Enemy")
 	class UBoxComponent* GetMeleeHitBox() const { return meleeHitBox; }
 
@@ -44,6 +46,8 @@ protected:
 
 	UAnimMontage* GetMontageAttackOne() const { return enemyAttackOne; }
 	UAnimMontage* GetMontageAttackTwo() const { return enemyAttackTwo; }
+
+	virtual void OnTakeDamage() override;
 
 
 private:

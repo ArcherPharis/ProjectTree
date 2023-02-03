@@ -34,6 +34,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Player")
 	void SwitchCharacter();
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Player")
+	void AttackButtonClicked();
+
 
 private:
 
@@ -47,6 +50,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "PlayerDash")
 	UAnimMontage* DashMontage;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Player")
+	USoundBase* TransformationSound;
 
 
 

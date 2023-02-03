@@ -59,6 +59,7 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 	//}
 	health = FMath::Clamp(health + Damage, 0, maxHealth);
 	onHealthChanged.Broadcast(health, maxHealth);
+	ownerChara->OnTakeDamage();
 	
 	if (health == 0)
 	{

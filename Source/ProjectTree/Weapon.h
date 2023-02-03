@@ -41,6 +41,8 @@ protected:
 
 private:
 
+	class APlayerCharacter* OwnerPlayerChara;
+
 	UPROPERTY(EditAnywhere, Category = "Weapon")
 	USceneComponent* rootComp;
 	UPROPERTY(EditAnywhere, Category = "Weapon")

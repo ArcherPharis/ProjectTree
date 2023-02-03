@@ -33,6 +33,8 @@ void APlayerCharacter::SwitchCharacter()
 	cont->UnPossess();
 	cont->Possess(teen);
 	SetActorHiddenInGame(true);
+	UGameplayStatics::PlaySoundAtLocation(this, TransformationSound, teen->GetActorLocation());
+	weapon->Destroy();
 	Destroy();
 
 }

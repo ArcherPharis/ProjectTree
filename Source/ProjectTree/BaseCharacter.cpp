@@ -49,6 +49,10 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 }
 
+void ABaseCharacter::OnTakeDamage()
+{
+}
+
 bool ABaseCharacter::IsDead()
 {
 	return healthComp->GetHealth() == 0;

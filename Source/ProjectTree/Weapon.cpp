@@ -5,6 +5,7 @@
 #include "GameFramework/Character.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "PlayerCharacter.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values
@@ -44,11 +45,14 @@ void AWeapon::AttachWeapon(USkeletalMeshComponent* ownerMesh)
 
 void AWeapon::Attack(USkeletalMeshComponent* ownerMesh)
 {
+	OwnerPlayerChara = Cast<APlayerCharacter>(GetOwner());
+	OwnerPlayerChara->AttackButtonClicked();
 	if (CanAttack())
 	{
-		ownerMesh->GetAnimInstance()->Montage_Play(meleeMontage);
-		GetWorldTimerManager().SetTimer(AttackTimer, 1 / attackRate, false);
-		UE_LOG(LogTemp, Warning, TEXT("CanAttack"));
+		//ownerMesh->GetAnimInstance()->Montage_Play(meleeMontage);
+
+		//GetWorldTimerManager().SetTimer(AttackTimer, 1 / attackRate, false);
+		//UE_LOG(LogTemp, Warning, TEXT("CanAttack"));
 	}
 }
 
