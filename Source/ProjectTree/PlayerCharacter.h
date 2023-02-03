@@ -27,6 +27,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "PlayerDash")
 	void TakeHit();
 
+	UFUNCTION(BlueprintCallable, Category = "Player")
+	void PlayWinningMontage();
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -55,6 +58,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "PlayerDash")
 	UAnimMontage* DashMontage;
+
+	UPROPERTY(EditDefaultsOnly, Category = "PlayerDash")
+	UAnimMontage* WinMontage;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Player")
 	USoundBase* TransformationSound;

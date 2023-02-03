@@ -20,6 +20,11 @@ APlayerCharacter::APlayerCharacter()
 	camera->SetupAttachment(springArm);
 }
 
+void APlayerCharacter::PlayWinningMontage()
+{
+	GetMesh()->GetAnimInstance()->Montage_Play(WinMontage);
+}
+
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
