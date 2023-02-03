@@ -46,6 +46,8 @@ void APlayerCharacter::HandleDeath()
 	APlayerCharacterController* cont = Cast<APlayerCharacterController>(GetOwner());
 	cont->SetInputMode(FInputModeUIOnly());
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Pawn, ECollisionResponse::ECR_Ignore);
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_WorldDynamic, ECollisionResponse::ECR_Ignore);
+
 	cont->GameOver();
 
 	
