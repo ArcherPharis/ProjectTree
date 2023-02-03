@@ -29,7 +29,9 @@ void APlayerCharacter::BeginPlay()
 void APlayerCharacter::SwitchCharacter()
 {
 	onLevelUp.Broadcast(LevelUpIcon);
-	teen = GetWorld()->SpawnActor<APlayerCharacter>(teenClass, GetActorLocation(), GetActorRotation());
+	FActorSpawnParameters params;
+	params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	teen = GetWorld()->SpawnActor<APlayerCharacter>(teenClass, GetActorLocation(), GetActorRotation(), params);
 	APlayerController* cont = UGameplayStatics::GetPlayerController(this, 0);
 	cont->UnPossess();
 	cont->Possess(teen);
