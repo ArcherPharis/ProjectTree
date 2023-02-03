@@ -3,6 +3,7 @@
 
 #include "HealthComponent.h"
 #include "BaseCharacter.h"
+#include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 // Sets default values for this component's properties
