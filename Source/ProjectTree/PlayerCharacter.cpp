@@ -28,6 +28,7 @@ void APlayerCharacter::BeginPlay()
 
 void APlayerCharacter::SwitchCharacter()
 {
+	onLevelUp.Broadcast(LevelUpIcon);
 	teen = GetWorld()->SpawnActor<APlayerCharacter>(teenClass, GetActorLocation(), GetActorRotation());
 	APlayerController* cont = UGameplayStatics::GetPlayerController(this, 0);
 	cont->UnPossess();

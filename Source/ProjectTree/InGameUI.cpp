@@ -6,6 +6,7 @@
 #include "Components/Button.h"
 #include "Components/WidgetSwitcher.h"
 #include "Components/CanvasPanel.h"
+#include "Components/Image.h"
 
 void UInGameUI::UpdateHealth(float health, float maxHealth)
 {
@@ -29,6 +30,12 @@ void UInGameUI::SwitchToPauseMenu()
 
 void UInGameUI::SwitchToCongratsMenu()
 {
+	UISwitcher->SetActiveWidget(endGameCreditsCanvas);
+}
+
+void UInGameUI::ChangePlayerIcon(UTexture2D* newIcon)
+{
+	playerImage->SetBrushFromTexture(newIcon);
 }
 
 void UInGameUI::NativeConstruct()

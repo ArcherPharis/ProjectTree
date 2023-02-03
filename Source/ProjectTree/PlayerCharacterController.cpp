@@ -14,6 +14,7 @@ void APlayerCharacterController::OnPossess(APawn* newPawn)
 	if (playerCharacter)
 	{
 		playerCharacter->GetHealthComponent()->onHealthChanged.AddDynamic(this, &APlayerCharacterController::UpdateUIHealth);
+		playerCharacter->onLevelUp.AddDynamic(this, &APlayerCharacterController::ChangeIcon);
 		if (inGameUIClass && !inGameUI)
 		{
 			inGameUI = CreateWidget<UInGameUI>(this, inGameUIClass);
@@ -44,7 +45,13 @@ void APlayerCharacterController::IncreaseEnemiesKilled()
 	{
 		APlayerCharacter* charact = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(this, 0));
 		charact->SwitchCharacter();
+		hasTransformed = true;
 	}
+}
+
+void APlayerCharacterController::SwitchToEndgameScreen()
+{
+	inGameUI->SwitchToCongratsMenu();
 }
 
 void APlayerCharacterController::ResumeGame()
@@ -93,4 +100,9 @@ void APlayerCharacterController::UpdateUIHealth(float newH, float maxH)
 {
 	
 	inGameUI->UpdateHealth(newH, maxH);
+}
+
+void APlayerCharacterController::ChangeIcon(UTexture2D* iconToSwap)
+{
+	inGameUI->ChangePlayerIcon(iconToSwap);
 }

@@ -32,6 +32,7 @@ public:
 	void SwitchToGameOverMenu();
 	void SwitchToPauseMenu();
 	void SwitchToCongratsMenu();
+	void ChangePlayerIcon(UTexture2D* newIcon);
 
 protected:
 	virtual void NativeConstruct() override;
@@ -46,6 +47,9 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UCanvasPanel* gameOverCanvas;
+
+	UPROPERTY(meta = (BindWidget))
+	class UCanvasPanel* endGameCreditsCanvas;
 
 	UPROPERTY(meta = (BindWidget))
 	class UWidgetSwitcher* UISwitcher;
@@ -71,11 +75,15 @@ private:
 	UPROPERTY(meta = (bindWidget))
 	class UButton* quitButtonGameOver;
 
+	UPROPERTY(meta = (bindWidget))
+	class UImage* playerImage;
+
 	UFUNCTION()
 	void Resume();
 	UFUNCTION()
 	void Restart();
 	UFUNCTION()
 	void Quit();
+
 	
 };

@@ -6,6 +6,8 @@
 #include "BaseCharacter.h"
 #include "PlayerCharacter.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnLevelUp, UTexture2D*, newIcon);
+
 /**
  * 
  */
@@ -16,6 +18,7 @@ class PROJECTTREE_API APlayerCharacter : public ABaseCharacter
 
 public:
 	APlayerCharacter();
+	FOnLevelUp onLevelUp;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "PlayerDash")
 	void VectorDash();
@@ -56,6 +59,9 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Player")
 	USoundBase* JumpSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Player")
+	UTexture2D* LevelUpIcon;
 
 
 

@@ -21,6 +21,10 @@ public:
 
 	void IncreaseEnemiesKilled();
 
+	UFUNCTION(BlueprintCallable, Category = "PlayerController")
+	void SwitchToEndgameScreen();
+
+
 	UFUNCTION()
 	void ResumeGame();
 
@@ -44,6 +48,9 @@ private:
 
 	UFUNCTION()
 	void UpdateUIHealth(float newH, float maxH);
+
+	UFUNCTION()
+	void ChangeIcon(UTexture2D* iconToSwap);
 
 	UPROPERTY(EditAnywhere, Category = "KillCount")
 	int enemiesKilled = 0;
